@@ -4,6 +4,14 @@ const hasMutation = (dna) => {
   return new Promise(async (resolve, reject) => {
     try {
       const matrix = await convertToMatrix(dna);
+
+      const validation = validateChar(matrix);
+      if (!validation) {
+        resolve({
+          code: 500,
+          message: 'Invalid data',
+        });
+      }
       const verticalToHorizontal = transformVerticalToHorizontal(matrix);
 
       const horizontal1 = mutationHorizontal(dna);
@@ -17,18 +25,16 @@ const hasMutation = (dna) => {
           code: 200,
           message: 'Has mutation',
         });
-      } else {
-        await AdnModel.create({
-          has_mutation: false,
-        });
-
-        resolve({
-          code: 403,
-          message: 'No has mutation',
-        });
       }
 
-      // return resolve(horiz);
+      await AdnModel.create({
+        has_mutation: false,
+      });
+
+      resolve({
+        code: 403,
+        message: 'No has mutation',
+      });
     } catch (error) {
       return reject(error);
     }
@@ -46,27 +52,23 @@ const convertToMatrix = (dna) => {
   });
 };
 
-// const validateChar = (matrix) => {
-//   return new Promise(async (resolve,reject) => {
-//     //   try {
-//     matrix.forEach((row) => {
-//       row.forEach((col) => {
-//         console.log(col);
-//         if (!(col !== 'A' && col !== 'T' && col !== 'C' && col !== 'G')) {
-//           // reject({success: false});
-//           return reject('error');
-//         } else {
-//           return resolve('success');
-//         }
-//       });
-//     });
-//   // resolve({success: true});
-//   //   } catch(error){
-//   //     reject(error);
+const validateChar = (matrix) => {
+  let flag = true;
 
-//   //   }
-//   });
-// };
+  for(let i = 0; i < matrix.length; i++) {
+    for(let j = 0; j < matrix.length; j++) {
+      if (matrix[i][j] == 'A' || matrix[i][j] == 'T' || matrix[i][j] == 'C' || matrix[i][j] == 'G'){
+        continue;
+      } else {
+        flag = false;
+        i = matrix.length;
+        j = matrix.length;
+      }
+    }
+  }
+
+  return flag;
+};
 
 const mutationHorizontal = (dna) => {
   const dataA = 'AAAA';
@@ -102,6 +104,34 @@ const transformVerticalToHorizontal = (matrix) => {
   return newArray;
 };
 
+const stats = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      
+      const hasMutations = await AdnModel.find({
+        has_mutation: true,
+      }).count();
+
+      const noHasMutations = await AdnModel.find({
+        has_mutation: false,
+      }).count();
+
+      return resolve({
+        count_mutations: hasMutations,
+        count_no_mutation: noHasMutations,
+        ratio: hasMutations / noHasMutations,
+      });
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
 export default {
   hasMutation,
+  stats,
+  convertToMatrix,
+  mutationHorizontal,
+  transformVerticalToHorizontal,
+  validateChar,
 }

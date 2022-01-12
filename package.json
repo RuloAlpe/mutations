@@ -7,10 +7,10 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "local": "nodemon src/app.js --signal SIGTERM --exec babel-node",
+    "local": "nodemon src/index.js --signal SIGTERM --exec babel-node",
     "build": "babel ./src -d dist --presets es2015,stage-2 --ignore node_modules",
-    "lint": "eslint ./src",
-    "doc": "swagger-jsdoc -d src/swaggerApiDefinition.js"
+    "test": "jest",
+    "lint": "eslint ./src"
   },
   "keywords": [
     "Express",
@@ -41,7 +41,8 @@
     "husky": "^3.1.0",
     "jest": "^27.4.7",
     "mocha": "^8.3.2",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "supertest": "^6.2.1"
   },
   "resolutions": {
     "eslint": "4.19.1",

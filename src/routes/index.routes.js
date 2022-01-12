@@ -11,4 +11,10 @@ router.post('/mutation', async (req, res) => {
   return res.status(hasMutation.code).json(hasMutation.message);
 });
 
+router.get('/stats', async (req, res) => {
+  const stats = await mutationController.stats();
+
+  return res.status(200).json(stats);
+});
+
 export default router;
