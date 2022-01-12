@@ -1,0 +1,70 @@
+{
+  "name": "mutaciones",
+  "version": "1.0.0",
+  "description": "Backend written in es8 working together with express",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "local": "nodemon src/app.js --signal SIGTERM --exec babel-node",
+    "build": "babel ./src -d dist --presets es2015,stage-2 --ignore node_modules",
+    "lint": "eslint ./src",
+    "doc": "swagger-jsdoc -d src/swaggerApiDefinition.js"
+  },
+  "keywords": [
+    "Express",
+    "NodeJS",
+    "Mongo"
+  ],
+  "author": "Raul Alanis",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "eslint": "^5.1.0",
+    "express": "^4.16.3",
+    "express-useragent": "^1.0.13",
+    "helmet": "^3.15.1",
+    "husky": "^3.0.3",
+    "mongoose": "^5.2.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-latest-node": "^3.2.1",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "husky": "^3.1.0",
+    "jest": "^27.4.7",
+    "mocha": "^8.3.2",
+    "nodemon": "^1.18.10"
+  },
+  "resolutions": {
+    "eslint": "4.19.1",
+    "eslint-plugin-jsx-a11y": "6.0.3"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb/base",
+      "plugin:import/errors"
+    ],
+    "rules": {
+      "no-use-before-define": 0,
+      "arrow-body-style": 0,
+      "dot-notation": 0,
+      "no-console": 0,
+      "import/no-unresolved": 0
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint"
+    }
+  }
+}

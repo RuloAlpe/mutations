@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "latest-node"
+  ],
+  "plugins": [
+    ["transform-class-properties", { "spec": true }]
+  ],
+
+  "env": {
+    "debug": {
+      "sourceMaps": "inline",
+      "retainLines": true
+    }
+  }
+}
