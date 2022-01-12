@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    container_name: mutations_api
+    ports:
+      - "3050:3050"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - SERVER_PORT=3050
+      - MONGODB_URI=mongodb://mongoDB:27017/mutations
+    depends_on:
+      - mongoDB
+
+  mongoDB:
+    image: mongo:latest
+    ports:
+    - 27017:27017
+    volumes:
+      - db-data:/data/db
+ 
+volumes:
+  db-data:
