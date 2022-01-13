@@ -7,7 +7,7 @@ const hasMutation = (dna) => {
 
       const validation = validateChar(matrix);
       if (!validation) {
-        resolve({
+        return resolve({
           code: 500,
           message: 'Invalid data',
         });
@@ -21,7 +21,7 @@ const hasMutation = (dna) => {
           has_mutation: true,
         });
 
-        resolve({
+        return resolve({
           code: 200,
           message: 'Has mutation',
         });
@@ -31,7 +31,7 @@ const hasMutation = (dna) => {
         has_mutation: false,
       });
 
-      resolve({
+      return resolve({
         code: 403,
         message: 'No has mutation',
       });
@@ -48,7 +48,7 @@ const convertToMatrix = (dna) => {
       const newArray = data.split('');
       matrix[index] = [...newArray];
     });
-    resolve(matrix);
+    return resolve(matrix);
   });
 };
 
